@@ -1,0 +1,30 @@
+<div class="lg:items-start flex flex-col justify-center items-center gap-5">
+  <div class="lg:h-80 min-w-52 h-52">
+    <a target="_blank" [href]="images[currentImageIndex()].imageUrl">
+      <img
+        [src]="images[currentImageIndex()].imageUrl"
+        alt=""
+        class="lg:h-80 h-52 min-w-52 rounded-lg"
+      />
+    </a>
+  </div>
+  <div class="w-full flex justify-center items-center gap-5">
+    <button
+      type="button"
+      [disabled]="currentImageIndex() === 0"
+      class="disabled:bg-slate-700 disabled:text-gray-500 p-5 disabled:cursor-default text-white rounded-lg bg-blue-800 cursor-pointer w-full font-bold text-3xl"
+      (click)="PreviousImage()"
+    >
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+    </button>
+
+    <button
+      type="button"
+      [disabled]="currentImageIndex() === images.length - 1"
+      class="disabled:bg-slate-700 disabled:text-gray-500 p-5 disabled:cursor-default text-white rounded-lg bg-blue-800 cursor-pointer w-full font-bold text-3xl"
+      (click)="NextImage()"
+    >
+      <fa-icon [icon]="faArrowRight"></fa-icon>
+    </button>
+  </div>
+</div>

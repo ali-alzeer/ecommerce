@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "DMb/7B5Kfcmx/gL4DhbsEbtMkAohZSipohM6ZxX3q3A=",
+  "Source": "ecommerce.server",
+  "BasePath": "_content/ecommerce.server",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

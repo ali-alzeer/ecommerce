@@ -1,0 +1,49 @@
+@if (product() !== null && product() !== undefined) {
+<div
+  (click)="ShowDetails()"
+  class="transition-all duration-500 hover:shadow-lg hover:shadow-black cursor-pointer min-w-32 md:min-w-48 lg:min-w-60 overflow-hidden bg-blue-900 text-white flex flex-col justify-center items-center text-center gap-2"
+>
+  <div>
+    @if (product()?.images?.length! > 0) {
+    <img
+      [src]="product()!.images[0].imageUrl"
+      alt=""
+      class="w-32 h-32 md:w-48 md:h-48 lg:w-60 lg:h-60 object-cover"
+    />
+    } @else {
+    <div
+      class="flex justify-center items-center w-32 h-32 md:w-48 md:h-48 lg:w-60 lg:h-60 text-xl md:text-5xl bg-blue-400"
+    >
+      <fa-icon [icon]="faImage"></fa-icon>
+    </div>
+    }
+  </div>
+  <div class="flex flex-col justify-center items-center text-center gap-2">
+    <h1
+      class="text-lg md:text-2xl font-extrabold max-w-28 md:max-w-40 lg:max-w-52 overflow-hidden max-h-16 min-h-16 text-center"
+    >
+      {{ product()?.title }}
+    </h1>
+    <div class="flex flex-col justify-center items-center text-center gap-2">
+      <p
+        class="text-base md:text-lg max-w-28 md:max-w-40 lg:max-w-52 overflow-hidden max-h-16 min-h-16 text-center"
+      >
+        {{ product()?.description }}
+      </p>
+      <div class="flex justify-center items-center text-center gap-1">
+        @if(product()?.rating !== null){ @for (star of ratingStars; track
+        $index) {
+        <fa-icon [icon]="faStar" class="text-yellow-500"></fa-icon>
+        } @for (star of notRatingStars; track $index) {
+        <fa-icon [icon]="faStar" class="text-slate-500"></fa-icon>
+        } }
+      </div>
+      <h1
+        class="text-xl max-w-28 md:max-w-40 lg:max-w-52 overflow-hidden max-h-16 min-h-16 text-center font-bold mb-[-20px]"
+      >
+        $ {{ product()?.price }}
+      </h1>
+    </div>
+  </div>
+</div>
+}

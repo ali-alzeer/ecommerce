@@ -1,0 +1,259 @@
+<!-- Design details and comments area -->
+<div
+  class="bg-blue-200 flex flex-col justify-center items-center text-center page"
+>
+  @if (loading()) {
+  <app-loading></app-loading>
+  } @else { @if(product() !== null && product() !== undefined){
+  <div
+    class="lg:justify-start flex flex-col lg:flex-row justify-center items-center text-center p-5 m-5 max-w-[90%] lg:max-w-[1200px] gap-10"
+  >
+    <!-- IMAGE -->
+    <div
+      class="lg:self-start flex-1 flex flex-col justify-center items-center gap-5"
+    >
+      @if(product()?.images?.length! > 0){
+      <app-slider [images]="product()?.images!"></app-slider>
+      } @else {
+      <div
+        class="lg:w-80 lg:h-80 gap-5 flex flex-col justify-center items-center w-52 h-52 text-xl bg-blue-400 rounded-lg"
+      >
+        <div class="text-md text-blue-100">This product has no images</div>
+        <fa-icon [icon]="faImage" class="text-white text-6xl"></fa-icon>
+      </div>
+
+      }
+    </div>
+
+    <!-- CONTENT -->
+    <div
+      class="lg:self-start flex flex-col justify-center items-center text-center p-5 max-w-[90%] lg:max-w-[1200px] gap-10"
+    >
+      <div class="text-3xl font-black text-wrap">
+        {{ product()?.title }}
+      </div>
+
+      <div class="text-xl font-medium text-wrap">
+        {{ product()?.description }}
+      </div>
+
+      <div class="text-wrap text-5xl font-bold">$ {{ product()?.price }}</div>
+
+      <div class="flex justify-center items-center text-center gap-1">
+        @if(product()?.rating !== null){ @for (star of ratingStars; track
+        $index) {
+        <fa-icon [icon]="faStar" class="text-yellow-500 text-3xl"></fa-icon>
+        } @for (star of notRatingStars; track $index) {
+        <fa-icon [icon]="faStar" class="text-slate-500 text-3xl"></fa-icon>
+        } } @else {
+
+        <div class="text-xl font-medium text-wrap">No ratings yet</div>
+        }
+      </div>
+
+      <div class="lg:w-full text-center">
+        <button
+          [disabled]="ProductExistsInCart()"
+          class="lg:w-full disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-gray-400 disabled:hover:bg-slate-700 hover:bg-blue-600 transition-all text-wrap text-4xl font-bold rounded-lg cursor-pointer border-t-[1px] border-black bg-blue-700 text-white px-6 py-3"
+          type="button"
+          (click)="AddToCart()"
+        >
+          Add to cart
+        </button>
+      </div>
+
+      <div
+        class="lg:w-full flex flex-col justify-center items-center lg:items-start gap-10"
+      >
+        <!-- RATINGS -->
+        <div
+          class="w-full bg-blue-50 rounded-lg flex flex-col justify-center items-center text-center"
+        >
+          <div
+            (click)="ShowRatings()"
+            class="cursor-pointer bg-blue-700 text-white p-3 w-full rounded-t-lg"
+          >
+            Ratings
+            <fa-icon
+              [icon]="faAngleDoubleDown"
+              class="animate-bounce"
+            ></fa-icon>
+          </div>
+          @if(showRatings()){
+          <div class="flex flex-col justify-center items-center gap-2">
+            @if (ratingsError()) {
+            <div>An error occurred, could not get ratings for this product</div>
+            } @else { @if (RatingsArray().length > 0) { @for (rating of
+            RatingsArray(); track $index) {
+            <app-rating
+              [ratingFromParent]="rating"
+              (RatingToDelete)="DeleteRating($event)"
+            ></app-rating>
+            } } @else {
+            <div class="py-3">No ratings yet</div>
+            } }
+          </div>
+          }
+          <div
+            [class.rounded-b-lg]="!EnableRating()"
+            class="text-nowrap cursor-pointer border-t-[1px] border-black bg-blue-700 text-white p-3 w-full"
+            (click)="EnableRatingStars()"
+          >
+            <button type="button">Rate this product</button>
+          </div>
+          @if (EnableRating()) {
+          <div class="gap-2 flex flex-col justify-center items-center p-2">
+            @if (RatingErrorMessage() !== "") {
+            <div
+              class="max-w-full overflow-hidden bg-red-200 p-3 rounded-lg text-xs"
+            >
+              {{ RatingErrorMessage() }}
+            </div>
+            }
+            <div class="flex justify-center items-center gap-1">
+              <div
+                (mouseenter)="StarHover(1)"
+                (mouseleave)="StarLeave(1)"
+                (click)="StarClick(1)"
+              >
+                <fa-icon
+                  #star
+                  [icon]="faStar"
+                  id="star1"
+                  class="text-slate-500 text-2xl"
+                ></fa-icon>
+              </div>
+              <div
+                (mouseenter)="StarHover(2)"
+                (mouseleave)="StarLeave(2)"
+                (click)="StarClick(2)"
+              >
+                <fa-icon
+                  #star
+                  [icon]="faStar"
+                  id="star2"
+                  class="text-slate-500 text-2xl"
+                ></fa-icon>
+              </div>
+              <div
+                (mouseenter)="StarHover(3)"
+                (mouseleave)="StarLeave(3)"
+                (click)="StarClick(3)"
+              >
+                <fa-icon
+                  #star
+                  [icon]="faStar"
+                  id="star3"
+                  class="text-slate-500 text-2xl"
+                ></fa-icon>
+              </div>
+              <div
+                (mouseenter)="StarHover(4)"
+                (mouseleave)="StarLeave(4)"
+                (click)="StarClick(4)"
+              >
+                <fa-icon
+                  #star
+                  [icon]="faStar"
+                  id="star4"
+                  class="text-slate-500 text-2xl"
+                ></fa-icon>
+              </div>
+              <div
+                (mouseenter)="StarHover(5)"
+                (mouseleave)="StarLeave(5)"
+                (click)="StarClick(5)"
+              >
+                <fa-icon
+                  #star
+                  [icon]="faStar"
+                  id="star5"
+                  class="text-slate-500 text-2xl"
+                ></fa-icon>
+              </div>
+            </div>
+
+            <div
+              class="w-full cursor-pointer rounded-lg border-t-[1px] border-black bg-blue-700 text-white p-3 rounded-b-lg"
+              (click)="SubmitRating()"
+            >
+              <button type="button">Submit</button>
+            </div>
+          </div>
+          }
+        </div>
+
+        <!-- COMMENTS -->
+        <div
+          class="w-full bg-blue-50 rounded-lg flex flex-col justify-center items-center text-center"
+        >
+          <div
+            (click)="ShowComments()"
+            class="cursor-pointer bg-blue-700 text-white p-3 w-full rounded-t-lg"
+          >
+            Comments
+            <fa-icon
+              [icon]="faAngleDoubleDown"
+              class="animate-bounce"
+            ></fa-icon>
+          </div>
+          @if(showComments()){
+          <div class="flex flex-col justify-center items-center gap-2">
+            @if (product()?.comments?.length! > 0) { @for (comment of
+            product()?.comments; track $index) {
+            <app-comment
+              [commentFromParent]="comment"
+              (CommentToDelete)="DeleteComment($event)"
+            ></app-comment>
+            } } @else {
+            <div class="py-3">No comments yet</div>
+            }
+          </div>
+          } @else {
+          <!-- <div class="w-full -mt-10 text-black text-6xl font-black"></div> -->
+          }
+          <div
+            [class.rounded-b-lg]="!EnableComment()"
+            class="text-nowrap cursor-pointer border-t-[1px] border-black bg-blue-700 text-white p-3 w-full rounded-b-lg"
+            (click)="EnableCommentInput()"
+          >
+            <button type="button">Write a comment</button>
+          </div>
+          @if (EnableComment()) {
+          <div
+            class="w-full gap-2 flex flex-col justify-center items-center p-2"
+          >
+            @if (CommentErrorMessage() !== "") {
+            <div
+              class="max-w-full overflow-hidden bg-red-200 p-3 rounded-lg text-xs"
+            >
+              {{ CommentErrorMessage() }}
+            </div>
+            }
+
+            <input
+              [formControl]="CommentInput"
+              maxlength="100"
+              type="text"
+              class="w-full border-[1px] border-black rounded-lg p-2"
+            />
+
+            <button
+              type="button"
+              [disabled]="
+                CommentInput.value === '' || CommentInput.value?.length > 100
+              "
+              class="disabled:cursor-not-allowed disabled:bg-slate-600 disabled:text-gray-300 cursor-pointer rounded-lg border-t-[1px] border-black bg-blue-700 text-white p-3 w-full rounded-b-lg"
+              (click)="SubmitComment()"
+            >
+              Submit
+            </button>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  } }
+</div>

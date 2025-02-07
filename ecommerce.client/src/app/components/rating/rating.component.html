@@ -1,0 +1,45 @@
+<div class="flex flex-col justify-around items-center p-5 gap-2">
+  <div class="flex flex-col justify-center items-center">
+    <div (click)="GoToUserPage()" class="cursor-pointer">
+      @if (userComment()?.image !== null) {
+      <img
+        [src]="userComment()?.image?.imageUrl"
+        alt=""
+        class="rounded-full w-12 h-12 object-cover"
+      />
+      } @else{
+      <div
+        class="flex justify-center items-center text-white text-2xl bg-blue-500 rounded-full w-12 h-12 object-cover"
+      >
+        <fa-icon [icon]="faUser"></fa-icon>
+      </div>
+      }
+    </div>
+    <h1 class="max-w-[100px] font-bold overflow-hidden text-wrap">
+      {{ userComment()?.userName }}
+    </h1>
+  </div>
+
+  <div class="relative text-wrap">
+    <div class="p-1 flex justify-center items-center gap-1">
+      @for (star of ratingStars; track $index) {
+      <fa-icon [icon]="faStar" class="text-yellow-500 text-sm"></fa-icon>
+      } @for (star of notRatingStars; track $index) {
+      <fa-icon [icon]="faStar" class="text-slate-500 text-sm"></fa-icon>
+      }
+    </div>
+    <div class="text-sm font-light">
+      {{ ratingFromParent.createdOn | date : "dd/MM/yyyy" }}
+    </div>
+
+    @if(this.userStore.user()?.id! === userComment()?.id!){
+    <button
+      (click)="DeleteThisRating()"
+      type="button"
+      class="text-center absolute -top-2 -left-2 bg-red-700 text-white font-bold w-5 h-5 text-[10px] rounded-lg"
+    >
+      <fa-icon [icon]="faX"></fa-icon>
+    </button>
+    }
+  </div>
+</div>
