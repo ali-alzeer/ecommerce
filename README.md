@@ -64,7 +64,7 @@ To get a local copy up and running follow these simple steps.
 1. Clone the repo
 
 ```sh
-    git clone https://github.com/ali-alzeer/zedstore.git
+    git clone https://github.com/ali-alzeer/ecommerce.git
 ```
 
 #### Database
@@ -125,7 +125,7 @@ To get a local copy up and running follow these simple steps.
 1. Configure BASEURL in "environment.ts" file
 
 ```ts
-export const BASEURL: string = "YOUR_BACKEND_BASEURL";
+    export const BASEURL: string = "YOUR_BACKEND_BASEURL";
 ```
 
 2. Change path to the front-end folder
