@@ -1,0 +1,41 @@
+<div class="flex flex-col justify-center items-center gap-10">
+  <app-filter></app-filter>
+  @if (productsStore.isLoading()) {
+  <app-loading></app-loading>
+  } @else { 
+    @if (productsStore.error() !== null) {
+      @if(productsStore.error() === "advancedSearchingError"){
+        <div
+    class="flex justify-center items-center text-center p-3 m-5 bg-blue-300 text-blue-950 rounded-lg"
+  >
+  
+    Something went wrong, try again or use simple searching
+  </div>
+      }
+      @else {
+        <div
+    class="flex justify-center items-center text-center p-3 m-5 bg-red-300 text-red-950 rounded-lg"
+  >
+  An error occurred, please try again later
+    
+  </div>
+      }
+  
+      
+  } @else {
+  
+  @if (productsStore.products().length > 0) {
+  
+  <div class="flex flex-col justify-center items-center gap-10">
+    <div class="flex-wrap flex justify-center items-center text-center gap-5">
+      @for (product of productsStore.products(); track $index) {
+      <app-product-card [product]="product"></app-product-card>
+      }
+    </div>
+  </div>
+  
+  } @else {
+  <div class="text-3xl text-center">NO PRODUCTS TO SHOW</div>
+  } } }
+  
+</div>

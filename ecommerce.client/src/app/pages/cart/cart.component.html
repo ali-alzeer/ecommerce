@@ -1,0 +1,87 @@
+@if (Completed()) {
+<app-purchase
+  (RemoveCompletedScreen)="HandleRemoveCompletedScreen($event)"
+></app-purchase>
+}
+<div
+  class="bg-blue-200 flex flex-col justify-center items-center text-center page p-10"
+>
+  @if (loading()) {
+  <app-loading></app-loading>
+  } @else { @if(userStore.user() !== null && userStore.user() !== undefined){
+  @if (this.CurrentCart() !== null) { @if(this.CurrentCart()?.length! > 0){
+
+  <div class="flex justify-center items-center flex-col md:gap-7 gap-14">
+    @for (product of CurrentCart(); track $index) {
+    <app-cart-product
+      [product]="product"
+      (NewTotal)="HandleNewTotal($event)"
+    ></app-cart-product>
+
+    }
+
+    <div class="bg-white shadow-md shadow-black rounded-lg">
+      <div class="flex justify-center items-center gap-3 p-5 rounded-t-lg">
+        <h1 class="font-semibold text-lg">Total:</h1>
+        <h1 class="text-wrap text-lg text-blue-700 font-black">
+          $ {{ Total() }}
+        </h1>
+      </div>
+      <div class="flex justify-center items-center flex-col md:flex-row">
+        <button
+          (click)="CompletePurchase()"
+          type="button"
+          class="md:self-stretch md:rounded-bl-lg w-full p-5 bg-blue-700 text-white text-base font-black"
+        >
+          Complete purchase
+        </button>
+        <button
+          (click)="ClearCart()"
+          type="button"
+          class="md:self-stretch rounded-b-lg md:rounded-bl-none md:rounded-br-lg w-full p-5 bg-red-700 text-white text-base font-black"
+        >
+          Clear cart
+        </button>
+      </div>
+    </div>
+  </div>
+  } @else {
+  <div
+    class="p-5 shadow-md rounded-xl bg-white md:p-10 text-center max-w-[250px] md:max-w-[500px] lg-max-w-full text-wrap overflow-hidden"
+  >
+    <div class="flex flex-col justify-center items-center text-center p-5">
+      <h1 class="text-blue-800 text-xl lg:text-2xl font-bold">Cart is empty</h1>
+    </div>
+  </div>
+  } } @else {
+  <div
+    class="p-5 shadow-md rounded-xl bg-white md:p-10 text-center max-w-[250px] md:max-w-[500px] lg-max-w-full text-wrap overflow-hidden"
+  >
+    <div class="flex flex-col justify-center items-center text-center p-5">
+      <h1 class="text-blue-800 text-xl lg:text-2xl font-bold">Cart is empty</h1>
+    </div>
+  </div>
+
+  } } @else {
+  <div
+    class="p-5 shadow-md rounded-xl bg-white md:p-10 text-center max-w-[250px] md:max-w-[500px] lg-max-w-full text-wrap overflow-hidden"
+  >
+    <div class="flex flex-col justify-center items-center text-center p-5">
+      <h1 class="text-blue-800 text-4xl font-bold">You are</h1>
+      <h1 class="text-blue-700 text-5xl font-black">NOT</h1>
+      <h1 class="text-blue-800 text-4xl font-bold">signed in</h1>
+    </div>
+
+    <h1 class="text-blue-950 text-lg md:text-2xl font-semibold p-5">
+      To get to your cart you have to sign in
+    </h1>
+    <button
+      class="p-3 text-md transition-all md:hover:text-2xl md:hover:p-6 md:text-xl bg-blue-700 text-white text-wrap font-bold rounded-lg hover:bg-blue-600 md:p-5"
+      type="button"
+      (click)="GoToUserPage()"
+    >
+      Go to sign in page
+    </button>
+  </div>
+  } }
+</div>

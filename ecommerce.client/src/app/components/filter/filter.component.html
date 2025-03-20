@@ -1,0 +1,225 @@
+<div class="my-10 z-10">
+  <form
+    [formGroup]="FilterForm"
+    class="transition-all flex flex-col justify-center items-center gap-5"
+  >
+    <div
+      class="transition-all flex flex-col justify-center items-center gap-5 rounded-lg p-5 text-white bg-blue-950 z-10"
+    >
+    
+      
+      <div
+        class="w-full flex flex-col md:flex-row justify-center items-center gap-2"
+      >
+        <input
+          formControlName="Search"
+          placeholder="Search..."
+          class="flex-grow text-black overflow-hidden w-full max-w-full lg:w-[700px] lg:max-w-[700px] p-2 rounded-lg disabled:bg-gray-600"
+          type="text"
+          name="Search"
+          id="Search"
+          maxlength="200"
+        />
+        <button
+          #SearchButton
+          type="button"
+          (click)="StartSearching(true)"
+          [ngClass]="AdvancedSearching() ? (this.productsStore.isLoading() || (this.productsStore.error() !== null)) ? 'bg-slate-700 text-gray-500' : 'bg-gradient-to-tr from-violet-700 to-purple-700' : (this.productsStore.isLoading() || (this.productsStore.error() !== null)) ? 'bg-slate-700 text-gray-500' :  'bg-blue-800'"
+          class="flex-grow-0 md:max-w-[45px] rounded-lg cursor-pointer w-full font-bold text-xl p-2 "
+          [disabled]="(this.productsStore.isLoading() || (this.productsStore.error() !== null))"
+        >
+          <fa-icon [icon]="AdvancedSearching() ? faRobot : faSearch"></fa-icon>
+        </button>
+        <button
+          #OptionsButton
+          type="button"
+          (click)="ToggleOptions()"
+          class="flex-grow-0 md:max-w-[45px] rounded-lg bg-blue-800 cursor-pointer w-full font-bold text-xl p-2"
+        >
+          <fa-icon [icon]="faGear"></fa-icon>
+        </button>
+      </div>
+      @if(ShowSearchOptions()){
+        <div
+        class="transition-all w-full flex flex-col md:flex-row justify-center items-center gap-2 rounded-lg text-white bg-blue-950 z-10"
+      >
+        <button (click)="DisableAdvancedSearching()" [disabled]="!AdvancedSearching()" type="button" class="self-stretch bg-white text-blue-900 w-full rounded-lg p-2 font-bold disabled:bg-blue-800 disabled:text-white text-nowrap">Simple Searching <br/> (Normal)</button>
+        <button (click)="EnableAdvancedSearching()" [disabled]="AdvancedSearching()" type="button" class="self-stretch bg-white text-blue-900 w-full rounded-lg p-2 font-bold disabled:bg-gradient-to-tr disabled:from-violet-700 disabled:to-purple-700 disabled:text-white text-nowrap">Advanced Searching <br/> (AI-Powered)</button>
+      </div>
+      }
+      <div
+        [class.bg-blue-800]="ShowFilters()"
+        class="transition-all rounded-lg w-full flex flex-col justify-center items-center"
+      >
+        <div
+          class="z-10 bg-blue-800 cursor-pointer w-full font-bold text-xl px-4 py-2"
+          [class.rounded-lg]="!ShowFilters()"
+          [class.rounded-t-lg]="ShowFilters()"
+          (click)="ChangeFiltersVisibility()"
+        >
+          Filters
+        </div>
+        @if (ShowFilters()) {
+        <div
+          [@filterToggle]="ShowFilters() ? 'show' : 'hide'"
+          class="pb-3 px-3 w-full flex flex-col justify-center items-center gap-2"
+        >
+          <div
+            [@filterToggle]="ShowFilters() ? 'show' : 'hide'"
+            [class.bg-blue-950]="ShowCategory()"
+            class="w-full flex flex-col justify-center items-center gap-2"
+          >
+            <div
+              class="py-2 cursor-pointer w-full font-bold text-md"
+              [class.bg-blue-950]="!ShowCategory()"
+              (click)="ChangeCategoryVisibility()"
+            >
+              Category
+            </div>
+            @if (ShowCategory()) {
+            <select
+              formControlName="CategoryId"
+              class="text-black p-2 mb-2 rounded-lg w-32 overflow-hidden"
+              name="CategoryId"
+              id="CategoryId"
+            >
+              <option [value]="0" selected>all</option>
+              @for (category of categoriesStore.categories(); track $index) {
+              <option [value]="category.id">{{ category.title }}</option>
+              }
+            </select>
+            }
+          </div>
+          <div
+            [@filterToggle]="ShowFilters() ? 'show' : 'hide'"
+            [class.bg-blue-950]="ShowPrice()"
+            class="w-full flex flex-col justify-center items-center gap-2"
+          >
+            <div
+              class="py-2 cursor-pointer w-full font-bold text-md"
+              [class.bg-blue-950]="!ShowPrice()"
+              (click)="ChangePriceVisibility()"
+            >
+              Price
+            </div>
+            @if (ShowPrice()) {
+            <div
+              class="flex-wrap flex justify-center items-center gap-3 text-black p-2 rounded-lg overflow-hidden"
+            >
+              <div class="flex flex-col justify-center items-center gap-1">
+                <p class="text-white">Min price</p>
+                <input
+                  (keydown)="PreventChars($event, true, 0, 9)"
+                  formControlName="MinPrice"
+                  maxlength="9"
+                  min="0"
+                  type="text"
+                  name="MinPrice"
+                  id="MinPrice"
+                  class="text-center text-black p-2 rounded-lg w-32 overflow-hidden"
+                />
+              </div>
+              <div class="flex flex-col justify-center items-center gap-1">
+                <p class="text-white">Max price</p>
+                <input
+                  (keydown)="PreventChars($event, true, 0, 9)"
+                  formControlName="MaxPrice"
+                  maxlength="9"
+                  min="0"
+                  type="text"
+                  name="MaxPrice"
+                  id="MaxPrice"
+                  class="text-center text-black p-2 rounded-lg w-32 overflow-hidden"
+                />
+              </div>
+            </div>
+            }
+          </div>
+          <div
+            [@filterToggle]="ShowFilters() ? 'show' : 'hide'"
+            [class.bg-blue-950]="ShowRating()"
+            class="w-full flex flex-col justify-center items-center gap-2"
+          >
+            <div
+              class="py-2 cursor-pointer w-full font-bold text-md"
+              [class.bg-blue-950]="!ShowRating()"
+              (click)="ChangeRatingVisibility()"
+            >
+              Rating
+            </div>
+            @if (ShowRating()) {
+            <div
+              class="flex-wrap flex justify-center items-center gap-3 text-black p-2 rounded-lg overflow-hidden"
+            >
+              <div class="flex flex-col justify-center items-center gap-1">
+                <p class="text-white">Min rating</p>
+                <input
+                  (keydown)="PreventChars($event, true, 0, 5)"
+                  formControlName="MinRating"
+                  maxlength="1"
+                  max="5"
+                  min="0"
+                  type="text"
+                  name="MinRating"
+                  id="MinRating"
+                  class="text-center text-black p-2 rounded-lg w-32 overflow-hidden"
+                />
+              </div>
+              <div class="flex flex-col justify-center items-center gap-1">
+                <p class="text-white">Max rating</p>
+                <input
+                  (keydown)="PreventChars($event, true, 0, 5)"
+                  formControlName="MaxRating"
+                  maxlength="1"
+                  max="5"
+                  min="0"
+                  type="text"
+                  name="MaxRating"
+                  id="MaxRating"
+                  class="text-center text-black p-2 rounded-lg w-32 overflow-hidden"
+                />
+              </div>
+            </div>
+            }
+          </div>
+        </div>
+        <div
+          [@filterToggle]="ShowFilters() ? 'show' : 'hide'"
+          class="rounded-b-lg text-black bg-white py-2 cursor-pointer w-full font-bold text-md"
+          (click)="ResetFilters()"
+        >
+          Reset Filters
+        </div>
+        }
+      </div>
+    </div>
+    @if(!AdvancedSearching()){
+      <div
+      class="max-w-[80%] md:max-w-[50%] lg:max-w-[750px] w-full flex justify-center items-center gap-5"
+    >
+      <button
+        type="button"
+        [disabled]="PageNumber() === 1 || this.productsStore.isLoading() || (this.productsStore.error() !== null)"
+        class="z-10 disabled:bg-slate-700 disabled:text-gray-500 p-5 disabled:cursor-default text-white rounded-lg bg-blue-800 cursor-pointer w-full font-bold text-3xl"
+        (click)="PreviousPage()"
+      >
+        <fa-icon [icon]="faArrowLeft"></fa-icon>
+      </button>
+      <div
+        class="z-10 p-5 text-white rounded-lg bg-blue-800 w-full font-bold text-3xl"
+      >
+        {{ PageNumber() }}
+      </div>
+      <button
+        type="button"
+        [disabled]="this.productsStore.productsCount() === 0 || IsLastPage() || this.productsStore.isLoading() || (this.productsStore.error() !== null)"
+        class="z-10 disabled:bg-slate-700 disabled:text-gray-500 p-5 disabled:cursor-default text-white rounded-lg bg-blue-800 cursor-pointer w-full font-bold text-3xl"
+        (click)="NextPage()"
+      >
+        <fa-icon [icon]="faArrowRight"></fa-icon>
+      </button>
+    </div>
+    }
+    
+  </form>
+</div>

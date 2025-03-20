@@ -1,0 +1,92 @@
+<div
+  class="bg-blue-200 flex flex-col justify-center items-center text-center page p-10"
+>
+  @if (loading()) {
+  <app-loading></app-loading>
+  } @else { @if(user() !== null && user() !== undefined){
+
+  <div
+    class="relative rounded-full bg-blue-400 text-white text-9xl flex flex-col justify-center items-center gap-3 m-5"
+  >
+    @if (user()?.image !== null) {
+    <img
+      [src]="user()?.image?.imageUrl"
+      alt=""
+      class="w-60 h-60 object-cover z-10 rounded-full"
+    />
+
+    } @else {
+    <div class="flex justify-center items-center w-60 h-60">
+      <fa-icon [icon]="faUser"></fa-icon>
+    </div>
+    }
+  </div>
+
+  <div
+    class="font-medium max-w-[20rem] flex flex-col justify-center items-center bg-white p-10 rounded-lg shadow-lg"
+  >
+    <div class="flex mb-10">
+      <h1 class="text-blue-950 font-black text-3xl">Account info</h1>
+    </div>
+
+    <div class="w-full max-w-72 grid grid-cols-1 gap-6">
+      <div class="flex flex-col font-bold max-w-[17rem] overflow-hidden">
+        First name
+        <div
+          class="text-base font-medium bg-blue-50 p-3 rounded-md max-w-full overflow-hidden border-[1px] border-gray-400"
+        >
+          {{ user()?.firstName }}
+        </div>
+      </div>
+      <div class="flex flex-col font-bold">
+        Last name
+        <div
+          class="text-base font-medium bg-blue-50 p-3 rounded-md max-w-full overflow-hidden border-[1px] border-gray-400"
+        >
+          {{ user()?.lastName }}
+        </div>
+      </div>
+      <div class="flex flex-col font-bold">
+        User name
+        <div
+          class="text-base font-medium bg-blue-50 p-3 rounded-md max-w-full overflow-hidden border-[1px] border-gray-400"
+        >
+          {{ user()?.userName }}
+        </div>
+      </div>
+      <div class="flex flex-col font-bold">
+        Email
+        <div
+          class="text-base font-medium bg-blue-50 p-3 rounded-md max-w-full overflow-hidden border-[1px] border-gray-400"
+        >
+          {{ user()?.email }}
+        </div>
+      </div>
+      <div class="flex flex-col font-bold">
+        Last logging in
+        <div
+          class="text-base font-medium bg-blue-50 p-3 rounded-md max-w-full overflow-hidden border-[1px] border-gray-400"
+        >
+          {{ user()?.lastLoggingIn | date : "MMM dd, yyyy - hh:mm:ss" }}
+        </div>
+      </div>
+      <div class="flex flex-col font-bold">
+        Joined on
+        <div
+          class="text-base font-medium bg-blue-50 p-3 rounded-md max-w-full overflow-hidden border-[1px] border-gray-400"
+        >
+          {{ user()?.createdOn | date : "MMM dd, yyyy - hh:mm:ss" }}
+        </div>
+      </div>
+      <div class="flex flex-col font-bold">
+        Last data updating
+        <div
+          class="text-base font-medium bg-blue-50 p-3 rounded-md max-w-full overflow-hidden border-[1px] border-gray-400"
+        >
+          {{ user()?.updatedOn | date : "MMM dd, yyyy - hh:mm:ss" }}
+        </div>
+      </div>
+    </div>
+  </div>
+  } }
+</div>

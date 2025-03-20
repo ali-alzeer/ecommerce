@@ -1,0 +1,33 @@
+<div class="p-5 page bg-blue-200 flex flex-col justify-start items-center text-center gap-7">
+  <div
+      class="transition-all p-2 max-w-[700px] w-full mt-10"
+    >
+    <h1 class="text-xl text-blue-700 font-bold">Welcome</h1>
+    <p>I'm here to help you get the best experience of our store</p>
+    <p>Type your question in the input below</p>
+    <fa-icon class="text-xl text-blue-700 font-bold" [icon]="faDown"></fa-icon>
+
+    </div>  
+  <div class="max-w-[700px] w-full flex justify-center items-center flex-col md:flex-row gap-3">
+      <input 
+      placeholder="How can I help?"
+        id="userInput"
+        type="text"
+        class="w-full p-2 flex justify-center items-center flex-col gap-10 bg-[#eee] rounded-md shadow-md shadow-black">
+        <button 
+            [disabled]="loading()"
+            type="button" 
+            class="text-xl transition-all bg-blue-700 text-white font-bold rounded-lg hover:bg-blue-600 p-3 w-full md:w-auto disabled:bg-slate-600 disabled:text-gray-400 disabled:hover:bg-slate-600"
+            (click)="SendMessage()"
+            >
+            <fa-icon [icon]="faSend"></fa-icon>
+        </button>
+    </div>
+    <div
+      id="resDiv"
+      class="transition-all p-2 max-w-[700px] w-full min-h-10 text-start flex-col gap-10 bg-[#eee] rounded-md shadow-md shadow-black"
+    >
+      <p class="text-gray-400 text-start">Response goes here...</p>
+    </div>
+  </div>
+  

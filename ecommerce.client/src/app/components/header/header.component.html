@@ -1,0 +1,32 @@
+<div
+  class="z-10 bg-blue-950 text-white shadow-md text-xl flex justify-center items-center text-center w-full h-[70px]"
+>
+  <div
+    (click)="GoToHome()"
+    class="cursor-pointer hover:bg-white hover:text-blue-950 transition-all duration-200 min-w-[70px] md:px-[20px] h-full flex justify-center items-center gap-2"
+  >
+    <span><fa-icon [icon]="faHouse"></fa-icon></span>
+    <span class="hidden md:inline">HOME</span>
+  </div>
+  <div
+    (click)="GoToUser()"
+    class="cursor-pointer hover:bg-white hover:text-blue-950 transition-all duration-200 min-w-[70px] md:px-[20px] h-full flex justify-center items-center gap-2"
+  >
+    <span><fa-icon [icon]="faUser"></fa-icon></span>
+    <span class="hidden md:inline">USER</span>
+  </div>
+  <div
+    (click)="GoToCart()"
+    class="cursor-pointer hover:bg-white hover:text-blue-950 transition-all duration-200 min-w-[70px] md:px-[20px] h-full flex justify-center items-center gap-2"
+  >
+    <span><fa-icon [icon]="faShoppingCart"></fa-icon></span>
+    <span class="hidden md:inline">CART</span>
+  </div>
+  <div
+    (click)="GoToBot()"
+    class="cursor-pointer hover:bg-white hover:text-blue-950 transition-all duration-200 min-w-[70px] md:px-[20px] h-full flex justify-center items-center gap-2"
+  >
+    <span><fa-icon [icon]="faBot"></fa-icon></span>
+    <span class="hidden md:inline">BOT</span>
+  </div>
+</div>
