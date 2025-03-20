@@ -14,11 +14,12 @@
 
 ## About The Project
 
-It is a full-stack E-Commerce web application built with Angular for front-end, ASP.NET Core web API for back-end and SQL Server for the database.
+It is a full-stack AI-powered E-Commerce web application built with Angular for front-end, ASP.NET Core web API for back-end and SQL Server for the database.
 It has a simple and user-friendly UI where users can view products, search for a product, add a product to cart, rate products, publish comments on them and manage their profiles on the app.
 
 ## Features
 
+- AI Intergration
 - User authentication using JWT
 - Users capabilities to manage their own profiles
 - Products searching, filtering
